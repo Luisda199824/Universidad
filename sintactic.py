@@ -5,6 +5,11 @@ import analizer
 import sys
 
 VERBOSE = 1
+# Initialization Errors file ------
+errors_file = open('error.txt', 'w')
+errors_file.write('False')
+errors_file.close()
+# ---------------------------------
 
 def p_program(p):
 	'programa : PROGRAM ID SEMI declaration_initial BEGIN declarations END DOT'
@@ -13,13 +18,18 @@ def p_program(p):
 def p_declaration_initial(p):
 	'''declaration_initial : uses_declaration
 			| declaracion_variables
-			| declaration_initial uses_declaration
-			| declaration_initial declaracion_variables'''
+			| uses_declaration declaration_initial
+			| declaracion_variables declaration_initial'''
 	pass
 
 def p_declaracion_variables(p):
 	'''declaracion_variables : VAR var_declaration COLON type_specifier SEMI
-			| CONST var_declaration COLON type_specifier SEMI'''
+			| VAR var_declaration COLON IP SEMI
+			| const_declaration'''
+	pass
+
+def p_const_declaration(p):
+	'const_declaration : CONST ID NUMBER SEMI'
 	pass
 
 def p_var_declaration(p):
@@ -36,6 +46,7 @@ def p_type_specifier(p):
 			| DOUBLE
 			| STRING
 			| BOOLEAN
+			| IP
 			| ARRAY LBLOCK NUMBER DOT DOT NUMBER RBLOCK OF type_specifier SEMI'''
 	pass
 
@@ -54,14 +65,59 @@ def p_declarations(p):
 			| stament declarations
 			| var_assignation
 			| var_assignation declarations
+			| class_declaration
+			| class_declaration declarations
 			| functions_declarations
-			| functions_declarations declarations'''
+			| functions_declarations declarations
+			| pointer_assignation
+			| pointer_assignation declarations
+			| class_assignation
+			| class_assignation declarations'''
+	pass
+
+def p_class_assignation(p):
+	'''class_assignation : ID ID EQ NEW ID LPARENT parameters_method RPARENT SEMI
+			| ID ID EQ NEW ID LPARENT RPARENT SEMI'''
+	pass
+
+def p_pointer_assignation(p):
+	'pointer_assignation : ID MINUS GT ID SEMI'
+	pass
+
+def p_class_declaration(p):
+	'''class_declaration : op_empaquetamiento CLASS ID BEGIN class_statements END SEMI'''
+	pass
+
+def p_class_statements(p):
+	'''class_statements : var_into_class
+			| var_into_class class_statements
+			| method_declaration
+			| method_declaration class_statements'''
+	pass
+
+def p_var_into_class(p):
+	'''var_into_class : op_empaquetamiento declaracion_variables'''
+	pass
+
+def p_method_declaration(p):
+	'''method_declaration : op_empaquetamiento ID LPARENT parameters_method RPARENT BEGIN declarations END SEMI'''
+	pass
+
+def p_parameters_method(p):
+	'''parameters_method : ID
+			| ID COMMA parameters_method'''
+	pass
+
+def p_op_empaquetamiento(p):
+	'''op_empaquetamiento : PUBLIC
+			| PRIVATE'''
 	pass
 
 def p_var_assignation(p):
 	'''var_assignation : array_assignation
 			| op_var ASSIGN arith_operation SEMI
 			| op_var ASSIGN STRINGVAL SEMI
+			| op_var ASSIGN IPVAL SEMI
 			| op_var ASSIGN op_var SEMI'''
 	pass
 
@@ -203,6 +259,9 @@ def p_declaration_function_initial(p):
 	pass
 
 def p_error(p):
+	errors_file = open('error.txt', 'w')
+	errors_file.write('True')
+	errors_file.close()
 	if VERBOSE:
 		if p is not None:
 			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA " + str(p.value))
@@ -211,12 +270,17 @@ def p_error(p):
 	else:
 		raise Exception('syntax', 'error')
 
-
 if __name__ == '__main__':
-	file_name = 'Pruebas/test5.pas'
+	file_name = 'testPresentacion.pas'
 
 	file = open(file_name, 'r')
 	data = file.read()
 	parser = yacc.yacc()
 	parser.parse(data, tracking=True)
-	print("No hay errores sintacticos")
+	# Errors File Review------------
+	errors_file = open('error.txt', 'r')
+	errores = errors_file.read()
+	errors_file.close()
+	# Finished Errors File Review --
+	if errores == "False":
+		print("No hay errores sintacticos")

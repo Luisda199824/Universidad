@@ -1,10 +1,11 @@
 PROGRAM EJER90;
         USES CRT;
+        const pi 3.154545;
+        VAR direccion : IP;
         VAR i,val_max,val_min,pos_max,pos_min:INTEGER;
 BEGIN
-     ClrScr;
      temporal := 1;
-
+     direccion := 172.78.67.987;
      function potencia(a,b: integer): integer;
      var
           i: integer;
@@ -47,23 +48,37 @@ BEGIN
           i := i + 1;
      END;
 
-     WRITE('Introduzca las horas trabajadas y las pts/hora que se cobran ');
-     WRITE('para calcular el salario semanal.');
-     WRITE('');
+     WRITE("Introduzca las horas trabajadas y las pts/hora que se cobran ");
+     WRITE("para calcular el salario semanal.");
+     WRITE("");
 
-     WRITE('Horas trabajadas: ');
+     WRITE("Horas trabajadas: ");
      READLN(htrab);
-     WRITE('Pts/hora: ');
+     WRITE("Pts/hora: ");
      READLN(ptsh);
-     WRITE('Horas extra: ');
+     WRITE("Horas extra: ");
      READLN(nhextra);
-     WRITE('');
+     WRITE("");
 
      hextra := nhextra * (ptsh * 15);
      Salario_semanal := (htrab) * (ptsh) + hextra;
 
-     WRITE('El salario semanal son ',salario_semanal:5:0,' pts.');
+     WRITE("El salario semanal son ",salario_semanal:5:0," pts.");
 
-     WRITELN('VALOR MAXIMO: ', 3, ' POSICION: ', 3);
-     WRITELN('VALOR MINIMO: ', 3, ' POSICION: ', 3);
+     WRITELN("VALOR MAXIMO: ", 3, " POSICION: ", 3);
+     WRITELN("VALOR MINIMO: ", 3, " POSICION: ", 3);
+
+     public class hola
+     begin
+          private var n,q: boolean;
+          private hola2(w,q)
+          begin
+               n->w;
+               q->q;
+          end;
+     end;
+
+     hola ejemplo= new ejemplo(true,true);
+     ola ejemplo2= new ejemplo();
+     ola ejemplo2= new ejemplo;
 END.

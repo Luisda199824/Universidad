@@ -10,7 +10,7 @@ errores = 0
 
 tokens = [
   # keywords
-  'BEGIN', 'END', 'PROGRAM', 'FUNCTION', 'CONST', 'USES', 'VAR', 'READLN', 'WRITE', 'BREAK', 'CLRSCR',
+  'BEGIN', 'END', 'PROGRAM', 'FUNCTION', 'CONST', 'USES', 'VAR', 'READLN', 'WRITE', 'BREAK', 'CLRSCR', 'PUBLIC', 'CLASS', 'PRIVATE', 'NEW',
 
   # Control de flujo
   'WHILE', 'DO', 'IF', 'THEN', 'ELSE', 'FOR', 'TO', 'OF',
@@ -25,10 +25,10 @@ tokens = [
   'EQ', 'NE', 'LT', 'LE', 'GT', 'GE', 'LNOT', 'LOR', 'LAND', 'LXOR',
 
   #Literales
-  'INTEGER', 'BYTE', 'REAL', 'SINGLE', 'DOUBLE', 'STRING', 'BOOLEAN', 'ARRAY', 'CHAR',
+  'INTEGER', 'BYTE', 'REAL', 'SINGLE', 'DOUBLE', 'STRING', 'BOOLEAN', 'ARRAY', 'CHAR', 'IP',
 
   # Others
-  'ID', 'NUMBER', 'STRINGVAL'
+  'ID', 'NUMBER', 'STRINGVAL', 'IPVAL'
 ]
 
 # -----------------------------------------------------------------------
@@ -146,6 +146,9 @@ t_LXOR = r'[Xx][Oo][Rr]'
 # -----------------------------------------------------------------------
 # Literales
 
+def t_IP(t):
+	r'[Ii][Pp]'
+	return t
 def t_INTEGER(t):
 	r'[Ii][Nn][Tt][Ee][Gg][Ee][Rr]'
 	return t
@@ -175,22 +178,39 @@ def t_CHAR(t):
 	return t
 def t_CLRSCR(t):
 	r'[Cc][Ll][Rr][Ss][Cc][Rr]'
-	pass
+	return t
+'PUBLIC', 'CLASS', 'PRIVATE',
+def t_PUBLIC(t):
+	r'[Pp][Uu][Bb][Ll][Ii][Cc]'
+	return t
+def t_PRIVATE(t):
+	r'[Pp][Rr][Ii][Vv][Aa][Tt][Ee]'
+	return t
+def t_CLASS(t):
+	r'[Cc][Ll][Aa][Ss][Ss]'
+	return t
+def t_NEW(t):
+	r'[Nn][Ee][Ww]'
+	return t
 
 # -----------------------------------------------------------------------
 # Others
+
+def t_IPVAL(t):
+	r'(([0-9]){1,3})\.(([0-9]){1,3})\.(([0-9]){1,3})\.(([0-9]){1,3})'
+	return t
+
+def t_NUMBER(t):
+	r'\d+(.\d+)?'
+	t.value = float(t.value)
+	return t
 
 def t_ID(t):
   r'\w+(_\d\w)*'
   return t
 
-def t_NUMBER(t):
-  r'\d+(\.\d+)?'
-  t.value = float(t.value)
-  return t
-
 def t_STRINGVAL(t):
-    r'\'.*\'|".*"'
+    r'".*"'
     t.value = t.value[1:-1]
     return t
 
@@ -222,7 +242,7 @@ def test(data, lexer):
 		tok = lexer.token()
 		if not tok:
 			break
-		# print (tok)
+		print (tok)
 
 lexer = lex.lex()
  
@@ -230,7 +250,7 @@ if __name__ == '__main__':
 	if (len(sys.argv) > 1):
 		file = sys.argv[1]
 	else:
-		file = 'test.pas'
+		file = 'testPresentacion.pas'
 	f = open(file, 'r')
 	data = f.read()
 	lexer.input(data)

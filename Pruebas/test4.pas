@@ -1,9 +1,10 @@
 PROGRAM EJER90;
         USES CRT;
+        VAR direccion : IP;
         VAR i,val_max,val_min,pos_max,pos_min:INTEGER;
 BEGIN
      temporal := 1;
-
+     direccion := 172.16.1.45;
      function potencia(a,b: integer): integer;
      var
           i: integer;
@@ -46,23 +47,23 @@ BEGIN
           i := i + 1;
      END;
 
-     WRITE('Introduzca las horas trabajadas y las pts/hora que se cobran ');
-     WRITE('para calcular el salario semanal.');
-     WRITE('');
+     WRITE("Introduzca las horas trabajadas y las pts/hora que se cobran ");
+     WRITE("para calcular el salario semanal.");
+     WRITE("");
 
-     WRITE('Horas trabajadas: ');
+     WRITE("Horas trabajadas: ");
      READLN(htrab);
-     WRITE('Pts/hora: ');
+     WRITE("Pts/hora: ");
      READLN(ptsh);
-     WRITE('Horas extra: ');
+     WRITE("Horas extra: ");
      READLN(nhextra);
-     WRITE('');
+     WRITE("");
 
      hextra := nhextra * (ptsh * 15);
      Salario_semanal := (htrab) * (ptsh) + hextra;
 
-     WRITE('El salario semanal son ',salario_semanal:5:0,' pts.');
+     WRITE("El salario semanal son ",salario_semanal:5:0," pts.");
 
-     WRITELN('VALOR MAXIMO: ', 3, ' POSICION: ', 3);
-     WRITELN('VALOR MINIMO: ', 3, ' POSICION: ', 3);
+     WRITELN("VALOR MAXIMO: ", 3, " POSICION: ", 3);
+     WRITELN("VALOR MINIMO: ", 3, " POSICION: ", 3);
 END.
