@@ -2,7 +2,6 @@ PROGRAM EJER90;
         USES CRT;
         VAR i,val_max,val_min,pos_max,pos_min:INTEGER;
 BEGIN
-     ClrScr;
      temporal := 1;
 
      function potencia(a,b: integer): integer;

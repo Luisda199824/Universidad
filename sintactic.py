@@ -207,7 +207,7 @@ def p_error(p):
 
 
 if __name__ == '__main__':
-	fin = 'test4.pas'
+	fin = 'Pruebas/test4.pas'
 
 	f = open(fin, 'r')
 	data = f.read()
