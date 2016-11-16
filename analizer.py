@@ -10,14 +10,14 @@ errores = 0
 
 tokens = [
   # keywords
-  'BEGIN', 'END', 'PROGRAM', 'FUNCTION', 'CONST', 'USES',
+  'BEGIN', 'END', 'PROGRAM', 'FUNCTION', 'CONST', 'USES', 'VAR', 'READLN', 'WRITE', 'BREAK', 'CLRSCR',
 
   # Control de flujo
-  'WHILE', 'DO', 'IF', 'THEN', 'ELSE', 'FOR', 'TO',
+  'WHILE', 'DO', 'IF', 'THEN', 'ELSE', 'FOR', 'TO', 'OF',
 
   # Operadores y delimitadores
   'DOT', 'COLON', 'APOSTROPHE', 
-  'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
+  'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
   'ASSIGN', 'SEMI', 'LPARENT', 'RPARENT', 'COMMA',
   'LBRACE', 'RBRACE', 'LBLOCK', 'RBLOCK',
 
@@ -25,7 +25,7 @@ tokens = [
   'EQ', 'NE', 'LT', 'LE', 'GT', 'GE', 'LNOT', 'LOR', 'LAND', 'LXOR',
 
   #Literales
-  'INTEGER', 'BYTE', 'REAL', 'SINGLE', 'DOUBLE', 'STRING', 'BOOLEAN', 'ARRAY',
+  'INTEGER', 'BYTE', 'REAL', 'SINGLE', 'DOUBLE', 'STRING', 'BOOLEAN', 'ARRAY', 'CHAR',
 
   # Others
   'ID', 'NUMBER', 'STRINGVAL'
@@ -36,6 +36,10 @@ tokens = [
 
 def t_BEGIN(t):
 	r'[Bb][Ee][Gg][Ii][Nn]'
+	return t
+
+def t_BREAK(t):
+	r'[Bb][Rr][Ee][Aa][Kk]'
 	return t
 
 def t_END(t):
@@ -58,6 +62,14 @@ def t_USES(t):
 	r'[Uu][Ss][Ee][Ss]'
 	return t
 
+def t_WRITE(t):
+	r'[Ww][Rr][Ii][Tt][Ee]([Ll][Nn])?'
+	return t
+
+def t_READLN(t):
+	r'[Rr][Ee][Aa][Dd][Ll][Nn]'
+	return t
+
 # -----------------------------------------------------------------------
 # Control de flujo
 def t_WHILE(t):
@@ -66,6 +78,10 @@ def t_WHILE(t):
 
 def t_DO(t):
 	r'[Dd][Oo]'
+	return t
+
+def t_VAR(t):
+	r'[Vv][Aa][Rr]'
 	return t
 
 def t_IF(t):
@@ -88,6 +104,13 @@ def t_TO(t):
 	r'[Tt][Oo]'
 	return t
 
+def t_OF(t):
+	r'[Oo][Ff]'
+	return t
+
+def t_MOD(t):
+	r'[Mm][Oo][Dd]'
+	pass
 # -----------------------------------------------------------------------
 # Operadores y delimitadores
 t_DOT        = r'\.'
@@ -147,6 +170,12 @@ def t_BOOLEAN(t):
 def t_ARRAY(t):
 	r'[Aa][Rr][Aa][Yy]'
 	return t
+def t_CHAR(t):
+	r'[Cc][Hh][Aa][Rr]'
+	return t
+def t_CLRSCR(t):
+	r'[Cc][Ll][Rr][Ss][Cc][Rr]'
+	pass
 
 # -----------------------------------------------------------------------
 # Others
@@ -193,7 +222,7 @@ def test(data, lexer):
 		tok = lexer.token()
 		if not tok:
 			break
-		print (tok)
+		# print (tok)
 
 lexer = lex.lex()
  
@@ -206,5 +235,4 @@ if __name__ == '__main__':
 	data = f.read()
 	lexer.input(data)
 	test(data, lexer)
-	print "Errores Lexicos: %s" % (str(errores))
-	raw_input()
+	# raw_input()
