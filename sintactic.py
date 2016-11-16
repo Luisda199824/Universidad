@@ -61,6 +61,7 @@ def p_declarations(p):
 def p_var_assignation(p):
 	'''var_assignation : array_assignation
 			| op_var ASSIGN arith_operation SEMI
+			| op_var ASSIGN STRINGVAL SEMI
 			| op_var ASSIGN op_var SEMI'''
 	pass
 
@@ -98,6 +99,10 @@ def p_while_declaration(p):
 
 def p_for_declaration(p):
 	'for_declaration : FOR assignation TO op_var DO BEGIN declarations END SEMI'
+	pass
+
+def p_function_call(p):
+	'function_call : ID LPARENT var_declaration RPARENT'
 	pass
 
 def p_assignation(p):
@@ -154,7 +159,8 @@ def p_readln_declaration(p):
 def p_op_var(p):
 	'''op_var : ID
 		| NUMBER
-		| array_call'''
+		| array_call
+		| function_call'''
 	pass
 
 def p_op_arith(p):
@@ -207,10 +213,10 @@ def p_error(p):
 
 
 if __name__ == '__main__':
-	fin = 'Pruebas/test4.pas'
+	file_name = 'Pruebas/test5.pas'
 
-	f = open(fin, 'r')
-	data = f.read()
+	file = open(file_name, 'r')
+	data = file.read()
 	parser = yacc.yacc()
 	parser.parse(data, tracking=True)
 	print("No hay errores sintacticos")
