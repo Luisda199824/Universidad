@@ -53,12 +53,15 @@ def p_declarations(p):
 			| stament
 			| stament declarations
 			| var_assignation
-			| var_assignation declarations'''
+			| var_assignation declarations
+			| functions_declarations
+			| functions_declarations declarations'''
 	pass
 
 def p_var_assignation(p):
 	'''var_assignation : array_assignation
-			| ID ASSIGN arith_operation SEMI'''
+			| op_var ASSIGN arith_operation SEMI
+			| op_var ASSIGN op_var SEMI'''
 	pass
 
 def p_array_assignation(p):
@@ -78,18 +81,6 @@ def p_operation(p):
 	'''operation : op_var
 			| operation op_arith operation
 			| LPARENT operation RPARENT'''
-	pass
-
-def p_array_declaration(p):
-	'array_declaration : '
-	pass
-
-def p_array_type_specifier(p):
-	'''array_type_specifier : INTEGER
-			| REAL
-			| DOUBLE
-			| BOOLEAN
-			| array_declaration'''
 	pass
 
 def p_stament(p):
@@ -185,6 +176,24 @@ def p_op_logic(p):
 			| LOR
 			| LAND
 			| LXOR'''
+	pass
+
+def p_function_declarations(p):
+	'functions_declarations : FUNCTION ID LPARENT parameters RPARENT COLON type_specifier SEMI VAR declaration_function_initial BEGIN declarations END SEMI'
+	pass
+
+def p_parameters(p):
+	'''parameters : ID end_parameters
+			| ID COMMA parameters'''
+	pass
+
+def p_end_parameters(p):
+	'end_parameters : COLON type_specifier'
+	pass
+
+def p_declaration_function_initial(p):
+	'''declaration_function_initial : ID COLON type_specifier SEMI
+			| ID COLON type_specifier SEMI declaration_function_initial'''
 	pass
 
 def p_error(p):

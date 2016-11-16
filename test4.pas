@@ -2,6 +2,21 @@ PROGRAM EJER90;
         USES CRT;
         VAR i,val_max,val_min,pos_max,pos_min:INTEGER;
 BEGIN
+     temporal := 1;
+
+     function potencia(a,b: integer): integer;
+     var
+          i: integer;
+          temporal: integer;
+     begin
+          temporal := 1;
+          for i := 1 to b do
+          begin
+               temporal := temporal * a;
+               potencia := temporal;
+          end;
+     end;
+
      FOR i:=1 TO 7 DO
      BEGIN
           IF arr_num[i] > val_max THEN
